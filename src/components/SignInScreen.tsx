@@ -26,6 +26,16 @@ export function SignInScreen() {
         <p className="signin__note">
           Only your name and email address are requested.
         </p>
+        <p className="signin__note signin__credit">
+          Built by{" "}
+          <a
+            href="https://github.com/Ymb2525003/kasatria-people-viz"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Yaseen Ahmed
+          </a>
+        </p>
       </div>
     </main>
   );

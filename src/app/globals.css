@@ -469,6 +469,22 @@ body {
   color: var(--text-dim);
 }
 
+/* Reuses .signin__note for size and colour so the credit can never drift out
+   of step with the note above it. This rule only styles the link. */
+.signin__credit {
+  margin-top: 8px;
+}
+
+.signin__credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.signin__credit a:hover {
+  color: var(--text);
+}
+
 /* ------------------------------------------------------------ responsive */
 
 @media (max-width: 720px) {
