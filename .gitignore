@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+build/
+.env
+.env.local
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+coverage/
+.DS_Store
+
+# Internal working notes -- not part of the submission
+CLAUDE.md
+SUBMISSION-CHECKLIST.md
