@@ -10,6 +10,27 @@ example for the Kasatria Software Developer internship assessment.
 
 ---
 
+## The four arrangements
+
+| Table — 20 × 10 | Sphere |
+|---|---|
+| ![Table arrangement: 200 tiles in a 20-column by 10-row grid, each bordered red, orange or green by net worth](./screenshots/table.png) | ![Sphere arrangement: 200 tiles distributed evenly over a sphere, each facing outward from the centre](./screenshots/sphere.png) |
+| **Double helix — 2 strands** | **Grid — 5 × 4 × 10** |
+| ![Double helix arrangement: two strands of tiles winding around a vertical axis](./screenshots/helix.png) | ![Grid arrangement: a 5 by 4 by 10 volume of tiles viewed off-axis so the ten layers of depth are visible](./screenshots/grid.png) |
+
+Tile colour encodes net worth throughout; the legend counts update with the
+data. The layout buttons carry their own dimensions, so the graded numbers are
+visible in the UI as well as in the tests.
+
+### The sign-in gate
+
+<img src="./screenshots/signin.png" alt="Sign-in panel reading '200 people, four arrangements' with a Sign in with Google button" width="420">
+
+An unauthenticated visitor never receives the dashboard bundle — the session is
+resolved in the server component, so this is not a client-side conditional.
+
+---
+
 ## Requirements checklist
 
 | # | Requirement | Where it lives |
