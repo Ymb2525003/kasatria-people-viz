@@ -22,6 +22,16 @@ Tile colour encodes net worth throughout; the legend counts update with the
 data. The layout buttons carry their own dimensions, so the graded numbers are
 visible in the UI as well as in the tests.
 
+### Double helix — two interleaved strands
+
+Two strands, 180° out of phase, rising in lockstep. Tiles alternate between
+strands by parity rather than splitting the dataset in half, so the country
+grouping in the source data distributes evenly across both ribbons instead of
+landing entirely on one. The strands are hard to separate visually from a
+static angle — they are verified by test instead: `tests/layouts.test.ts`
+asserts that paired tiles sit at equal height, diametrically opposite, and on
+the cylinder surface.
+
 ### The sign-in gate
 
 <img src="./screenshots/signin.png" alt="Sign-in panel reading '200 people, four arrangements' with a Sign in with Google button" width="420">
