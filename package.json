@@ -1,8 +1,11 @@
 {
   "name": "kasatria-people-viz",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "200 people from a live Google Sheet, arranged as a table, sphere, double helix or grid with three.js CSS3D.",
+  "private": true,
+  "type": "module",
+  "author": "Yaseen Ahmed",
+  "license": "ISC",
   "directories": {
     "test": "tests"
   },
@@ -17,9 +20,15 @@
     "test:coverage": "vitest run --coverage",
     "verify": "npm run typecheck && npm run lint && npm run test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "next": "^16.3.0",
+    "next-auth": "^5.0.0-beta.32",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "server-only": "^0.0.1",
+    "three": "^0.185.1",
+    "zod": "^4.4.3"
+  },
   "devDependencies": {
     "@types/node": "^26.1.2",
     "@types/react": "^19.2.18",
@@ -28,14 +37,6 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.10",
-    "zod": "^4.4.3"
-  },
-  "private": true,
-  "type": "module",
-  "dependencies": {
-    "next-auth": "^5.0.0-beta.32",
-    "server-only": "^0.0.1",
-    "three": "^0.185.1"
+    "vitest": "^4.1.10"
   }
 }

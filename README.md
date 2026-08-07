@@ -6,7 +6,7 @@ as a table, sphere, double helix, or grid.
 Built from the [three.js `css3d_periodictable`](https://threejs.org/examples/#css3d_periodictable)
 example for the Kasatria Software Developer internship assessment.
 
-**Live:** `<deployment URL>`
+**Live:** <https://kasatria-people-viz.vercel.app>
 
 ---
 
@@ -122,7 +122,13 @@ either: it targets WebGL, not the CSS3D renderer.
 
 So `src/scene/` contains **zero React imports**. React owns the shell; the
 scene owns the canvas; `SceneCanvas.tsx` is the single bridge. That separation
-is also what makes the layout maths unit-testable without a browser.
+is also what makes the layout and camera maths unit-testable without a browser.
+
+The one place the shell needs to *command* the scene is "Reset view", and it
+does so through a deliberately narrow imperative handle rather than a prop.
+Resetting is an event, not state; modelling it as a prop would mean inventing a
+counter whose value is never read. Everything that genuinely is state — data,
+layout, visibility — still flows one way.
 
 ### What I deliberately did not build
 
@@ -144,7 +150,7 @@ is also what makes the layout maths unit-testable without a browser.
 
 ```bash
 # The data endpoint rejects unauthenticated requests:
-curl -i https://<deployment>/api/people   # → 401
+curl -i https://kasatria-people-viz.vercel.app/api/people   # → 401 {"error":"Sign in to view this data."}
 ```
 
 ---
@@ -189,7 +195,7 @@ Current distribution: **21 low · 86 mid · 93 high**.
 ## Testing
 
 ```bash
-npm run test        # 51 tests
+npm run test        # 92 tests
 npm run verify      # typecheck + lint + test
 ```
 
@@ -205,6 +211,23 @@ it("is 10 deep", () => expect(new Set(grid.map(p => p.z)).size).toBe(10));
 The double helix is asserted on its defining properties — paired tiles at
 equal height, diametrically opposite, on the cylinder surface — rather than on
 a screenshot.
+
+### Camera framing is tested the same way
+
+Camera distance started life as four hardcoded constants, and it was wrong in a
+way no screenshot from one machine would reveal: the correct distance depends on
+the **viewport aspect ratio**, so a value that framed all 20 table columns on a
+wide monitor sliced the outer ones off a narrower window — on the exact layout
+whose 20 × 10 shape a reviewer is asked to count.
+
+So `src/scene/camera.ts` derives the distance from the layout's bounding box and
+the live aspect ratio, and `tests/camera.test.ts` asserts the property that
+matters across four viewport shapes: every bounding-box corner and every tile
+centre projects inside the frustum. The test builds its view basis from a
+look-at direction rather than reusing the module's own, so a sign error cannot
+hide behind the same sign error in the test.
+
+### One more test earns its keep
 
 One test exists specifically to catch the off-by-one the original demo invites:
 its grid advances a layer every 25 tiles, and changing the row count to 4

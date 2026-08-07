@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useState, useTransition } from "react";
-import { SceneCanvas } from "./SceneCanvas";
+import { useCallback, useMemo, useRef, useState, useTransition } from "react";
+import { SceneCanvas, type SceneHandle } from "./SceneCanvas";
 import { LayoutControls } from "./LayoutControls";
 import { NetWorthLegend } from "./NetWorthLegend";
 import { SearchFilter } from "./SearchFilter";
@@ -25,6 +25,8 @@ export function PeopleDashboard({ initialPayload }: PeopleDashboardProps) {
   const [layout, setLayout] = useState<LayoutId>("table");
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Person | null>(null);
+
+  const sceneRef = useRef<SceneHandle>(null);
 
   const people = payload.people;
 
@@ -91,6 +93,7 @@ export function PeopleDashboard({ initialPayload }: PeopleDashboardProps) {
   return (
     <div className="dashboard">
       <SceneCanvas
+        ref={sceneRef}
         people={people}
         layout={layout}
         visibleIds={visibleIds}
@@ -109,6 +112,14 @@ export function PeopleDashboard({ initialPayload }: PeopleDashboardProps) {
 
       <footer className="dashboard__footer">
         <LayoutControls active={layout} onChange={setLayout} />
+        {/* Free orbiting has no natural way back — see PeriodicScene.resetView. */}
+        <button
+          type="button"
+          className="reset-view"
+          onClick={() => sceneRef.current?.resetView()}
+        >
+          Reset view
+        </button>
       </footer>
 
       {hasQuery && visibleIds.size === 0 && <NoMatchesState query={query.trim()} />}

@@ -1,14 +1,28 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useImperativeHandle, useRef, type Ref } from "react";
 import { PeriodicScene } from "@/scene/PeriodicScene";
 import type { LayoutId, Person } from "@/types/person";
+
+/**
+ * The scene actions the React shell may trigger.
+ *
+ * Deliberately narrow. Resetting the view is a one-off command, not state —
+ * modelling it as a prop would mean inventing a counter to change, which is
+ * state that exists only to be ignored. Everything that genuinely *is* state
+ * (data, layout, visibility) still flows one way, as props.
+ */
+export interface SceneHandle {
+  resetView: () => void;
+}
 
 interface SceneCanvasProps {
   people: readonly Person[];
   layout: LayoutId;
   visibleIds: ReadonlySet<string>;
   onSelect: (person: Person | null) => void;
+  /** React 19 passes refs as an ordinary prop; no forwardRef needed. */
+  ref?: Ref<SceneHandle>;
 }
 
 /**
@@ -17,9 +31,11 @@ interface SceneCanvasProps {
  * This is the ONLY file that knows about both worlds. Everything above it is
  * ordinary React; everything below it is framework-agnostic TypeScript.
  */
-export function SceneCanvas({ people, layout, visibleIds, onSelect }: SceneCanvasProps) {
+export function SceneCanvas({ people, layout, visibleIds, onSelect, ref }: SceneCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<PeriodicScene | null>(null);
+
+  useImperativeHandle(ref, () => ({ resetView: () => sceneRef.current?.resetView() }), []);
 
   // Keep the latest callback in a ref so the scene is not torn down and
   // rebuilt every time the parent re-renders with a new function identity.
